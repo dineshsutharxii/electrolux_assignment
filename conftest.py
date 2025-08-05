@@ -25,7 +25,7 @@ def pytest_configure(config):
 
     # Configure logging
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s.%(msecs)03d | %(name)s | %(lineno)s | %(levelname)s | %(filename)s | %(funcName)s : %("
                "message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
