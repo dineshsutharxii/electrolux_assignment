@@ -34,6 +34,12 @@ def pytest_configure(config):
             #logging.StreamHandler()  # disables CLI log output
         ]
     )
-
-    # to save log file path for later use (email, CI, etc.)
-    #config._metadata = {"log_file": log_file_path}
+def pytest_metadata(metadata):
+    metadata["Project Name"] = "Electrolux API Automation"
+    metadata["Tested On"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    metadata["Environment"] = "Testing"
+    metadata["Tester"] = "Dinesh"
+    metadata.pop("JAVA_HOME", None)
+    metadata.pop("Packages", None)
+    metadata.pop("Plugins", None)
+    return metadata
