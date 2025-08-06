@@ -1,3 +1,4 @@
+import json
 import os
 import logging
 from datetime import datetime
@@ -9,6 +10,11 @@ import pytest
 def base_url():
     return "https://jsonplaceholder.typicode.com"
 
+@pytest.fixture(scope="session")
+def expected_posts():
+    with open(os.path.join("data", "expected_posts.json")) as f:
+        data = json.load(f)
+    return {post["id"]: post for post in data}
 
 def pytest_configure(config):
     os.makedirs("reports", exist_ok=True)
@@ -34,6 +40,8 @@ def pytest_configure(config):
             #logging.StreamHandler()  # disables CLI log output
         ]
     )
+
+
 def pytest_metadata(metadata):
     metadata["Project Name"] = "Electrolux API Automation"
     metadata["Tested On"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

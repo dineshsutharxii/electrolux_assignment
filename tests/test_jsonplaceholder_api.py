@@ -17,11 +17,13 @@ def test_get_all_posts(base_url):
 
 
 @pytest.mark.parametrize("post_id", [1, 5, 10, 50, 100])
-def test_get_post_by_valid_id(base_url, post_id):
+def test_get_post_by_valid_id(base_url, post_id, expected_posts):
     response = get_post_by_id(base_url, post_id)
     assert response.status_code == 200
     post = response.json()
     assert post["id"] == post_id
+    assert post["title"] == expected_posts[post_id]["title"]
+    assert post["body"] == expected_posts[post_id]["body"]
     assert isinstance(post["title"], str)
 
 
