@@ -1,6 +1,6 @@
 import pytest
 #from electrolux_assignment.utils.api_client import get_posts, get_post_by_id
-from utils.api_client import get_posts, get_post_by_id, add_new_post, update_post, delete_post
+from utils.api_client import get_posts, get_post_by_id, add_new_post, update_post, delete_post, partial_update
 
 
 def test_get_all_posts(base_url):
@@ -73,3 +73,16 @@ def test_update_post(base_url, post_id, payload):
 def test_delete_post(base_url, post_id):
     response = delete_post(base_url, post_id)
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize("post_id, partial_payload", [(3, {"title": "Post One"}),
+                                                      (20, {"body": "Body Twenty"}),
+                                                      (100, {"title": "Post hundred", "body": "Body hundred"})])
+def test_partial_update(base_url, post_id, partial_payload):
+    response = partial_update(base_url, partial_payload, post_id)
+    assert response.status_code == 200
+    json_res = response.json()
+    if 'title' in partial_payload:
+        assert json_res['title'] == partial_payload['title']
+    if 'body' in partial_payload:
+        assert json_res['body'] == partial_payload['body']
